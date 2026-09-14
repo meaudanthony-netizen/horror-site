@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE VOID — Tu n'es pas seul</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Special+Elite&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background:
+        radial-gradient(circle at 50% 45%, #160707 0%, #050505 45%, #000 100%);
+    color: #ddd;
+    font-family: "Special Elite", monospace;
+    overflow-x: hidden;
+    cursor: none;
+}
+
+/* Curseur */
+
+.cursor {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #b40000;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 12px #900;
+}
+
+/* Bruit vidéo */
+
+.noise {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: .07;
+    background-image:
+        repeating-radial-gradient(
+            circle at 0 0,
+            #fff 0,
+            #fff 1px,
+            transparent 1px,
+            transparent 3px
+        );
+    background-size: 5px 5px;
+    animation: noise .15s infinite;
+}
+
+@keyframes noise {
+    0% { transform: translate(0,0); }
+    25% { transform: translate(2px,-1px); }
+    50% { transform: translate(-1px,2px); }
+    75% { transform: translate(1px,1px); }
+    100% { transform: translate(-2px,-1px); }
+}
+
+/* Vignette */
+
+.vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    box-shadow:
+        inset 0 0 180px #000,
+        inset 0 0 350px #000;
+}
+
+/* Navigation */
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 25px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: linear-gradient(#000, transparent);
+}
+
+.logo {
+    font-family: "Creepster", cursive;
+    font-size: 34px;
+    color: #9c0000;
+    letter-spacing: 4px;
+    text-shadow: 0 0 15px #500;
+}
+
+nav button {
+    background: transparent;
+    color: #aaa;
+    border: none;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: none;
+    transition: .3s;
+}
+
+nav button:hover {
+    color: #d00000;
+}
+
+/* Hero */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+    position: relative;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 500px;
+    background: rgba(110,0,0,.12);
+    filter: blur(90px);
+    animation: pulse 5s infinite;
+}
+
+@keyframes pulse {
+    0%,100% { opacity: .2; transform: scale(.8); }
+    50% { opacity: .7; transform: scale(1.1); }
+}
+
+.content {
+    position: relative;
+    z-index: 5;
+}
+
+.warning {
+    color: #8d0000;
+    font-size: 12px;
+    letter-spacing: 6px;
+    margin-bottom: 20px;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0%, 90%, 100% { opacity: 1; }
+    95% { opacity: .15; }
+}
+
+h1 {
+    font-family: "Creepster", cursive;
+    font-size: clamp(80px, 15vw, 190px);
+    font-weight: normal;
+    letter-spacing: 10px;
+    color: #eee;
+    text-shadow:
+        4px 4px 0 #500,
+        0 0 30px #500;
+    animation: glitch 4s infinite;
+}
+
+@keyframes glitch {
+    0%, 90%, 100% {
+        transform: translate(0);
+    }
+
+    91% {
+        transform: translate(-5px, 2px);
+    }
+
+    92% {
+        transform: translate(5px, -2px);
+    }
+
+    93% {
+        transform: translate(-2px, 0);
+    }
+}
+
+.subtitle {
+    margin: 10px auto 40px;
+    max-width: 600px;
+    color: #888;
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+.enter {
+    border: 1px solid #700;
+    background: rgba(20,0,0,.5);
+    color: #ddd;
+    padding: 17px 45px;
+    font-family: inherit;
+    letter-spacing: 4px;
+    cursor: none;
+    transition: .4s;
+    box-shadow: 0 0 20px rgba(100,0,0,.2);
+}
+
+.enter:hover {
+    background: #650000;
+    color: white;
+    box-shadow: 0 0 40px #700;
+    transform: scale(1.05);
+}
+
+/* Sections */
+
+section {
+    padding: 100px 8%;
+    border-top: 1px solid #180000;
+}
+
+.section-title {
+    font-family: "Creepster", cursive;
+    font-size: 50px;
+    color: #a00000;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.card {
+    min-height: 220px;
+    padding: 30px;
+    border: 1px solid #251010;
+    background:
+        linear-gradient(145deg, rgba(30,0,0,.5), rgba(0,0,0,.8));
+    position: relative;
+    overflow: hidden;
+    transition: .4s;
+}
+
+.card::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: #700;
+    left: -100%;
+    bottom: 0;
+    transition: .5s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    border-color: #650000;
+    box-shadow: 0 15px 50px rgba(100,0,0,.2);
+}
+
+.card:hover::after {
+    left: 0;
+}
+
+.card span {
+    font-size: 40px;
+}
+
+.card h3 {
+    color: #b00000;
+    margin: 20px 0 10px;
+    letter-spacing: 2px;
+}
+
+.card p {
+    color: #777;
+    line-height: 1.7;
+    font-size: 13px;
+}
+
+/* Message */
+
+.message {
+    text-align: center;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.message p {
+    color: #555;
+    margin: 15px;
+}
+
+.secret {
+    color: #7c0000 !important;
+    font-size: 20px;
+    min-height: 30px;
+}
+
+/* Footer */
+
+footer {
+    text-align: center;
+    padding: 50px;
+    color: #333;
+    border-top: 1px solid #100000;
+}
+
+footer strong {
+    color: #760000;
+}
+
+/* Apparition */
+
+.ghost {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(255,255,255,.08),
+            rgba(0,0,0,.98) 55%
+        );
+    z-index: 500;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.ghost-face {
+    width: 120px;
+    height: 180px;
+    border-radius: 50% 50% 40% 40%;
+    background: #111;
+    box-shadow: 0 0 50px #000;
+    position: relative;
+}
+
+.ghost-face::before {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 32px;
+    background: #ddd;
+    border-radius: 50%;
+    left: 25px;
+    top: 55px;
+    box-shadow: 48px 0 #ddd;
+}
+
+.ghost-face::after {
+    content: "";
+    position: absolute;
+    width: 25px;
+    height: 45px;
+    border-radius: 50%;
+    background: #000;
+    left: 48px;
+    top: 100px;
+}
+
+.show-ghost {
+    display: flex;
+    animation: ghostAppear .6s forwards;
+}
+
+@keyframes ghostAppear {
+    0% { opacity: 0; }
+    40% { opacity: 1; }
+    60% { opacity: .2; }
+    100% { opacity: 1; }
+}
+
+/* Terminal */
+
+.terminal {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 300px;
+    padding: 15px;
+    background: rgba(0,0,0,.9);
+    border: 1px solid #250000;
+    color: #600;
+    font-size: 11px;
+    z-index: 50;
+    opacity: .7;
+}
+
+/* Mobile */
+
+@media(max-width:900px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width:600px) {
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    nav {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 75px;
+    }
+
+    .terminal {
+        display: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="noise"></div>
+<div class="vignette"></div>
+
+<div class="cursor" id="cursor"></div>
+
+<nav>
+    <div class="logo">THE VOID</div>
+
+    <button onclick="randomEvent()">
+        [ NE PAS CLIQUER ]
+    </button>
+</nav>
+
+<main>
+
+    <section class="hero">
+
+        <div class="content">
+
+            <div class="warning">
+                ⚠ ACCÈS NON RECOMMANDÉ ⚠
+            </div>
+
+            <h1>THE VOID</h1>
+
+            <p class="subtitle">
+                Certains endroits devraient rester oubliés.<br>
+                Certaines histoires ne devraient jamais être racontées.
+            </p>
+
+            <button class="enter" onclick="enterVoid()">
+                ENTRER DANS LE VIDE
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section>
+
+        <h2 class="section-title">
+            Archives interdites
+        </h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <span>☠</span>
+                <h3>EXPÉRIENCES</h3>
+                <p>
+                    Des expériences étranges menées dans des endroits
+                    où personne ne devrait être.
+                </p>
+            </div>
+
+            <div class="card">
+                <span>◉</span>
+                <h3>DOCUMENTS</h3>
+                <p>
+                    Des dossiers retrouvés après la disparition
+                    de leurs propriétaires.
+                </p>
+            </div>
+
+            <div class="card">
+                <span>♙</span>
+                <h3>TÉMOIGNAGES</h3>
+                <p>
+                    Ils ont raconté ce qu'ils avaient vu.
+                    Certains n'ont jamais pu terminer leur histoire.
+                </p>
+            </div>
+
+            <div class="card">
+                <span>◌</span>
+                <h3>VIDÉOS</h3>
+                <p>
+                    Des enregistrements étranges récupérés
+                    sur des appareils abandonnés.
+                </
